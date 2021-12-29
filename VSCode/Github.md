@@ -51,3 +51,31 @@
 此时会验证SSHKey是否可以访问Github，若成功则显示如下：
 > Hi your_name! You've successfully authenticated, but GitHub does not provide shell access.Connection to github.com closed.
 
+# VSCode与Github同步
+
+1. 创建仓库
+2. 复制仓库的地址(Clone with HTTPS)
+3. 在本地存放项目的根目录clone仓库地址
+4. 将项目新增的文件或更新的文件添加到仓库中去
+5. 将以上新增加的文件commit到仓库中去
+6. 将commit的代码push到远程分支中去
+
+**git status** 命令可查看git是否获取到文件的更改！
+
+## 在本地存放项目的根目录clone仓库地址
+> git clone https://github.com/xxx/xxx.git
+
+## 将项目新增的文件添加到仓库中去
+将所有文件都添加到仓库中：
+> git add --all
+若只想添加一个文件，则将--all替换成需要提交的文件即可:
+> git add ./VSCode/Github.md
+
+## 将以上新增加的文件commit到仓库中去
+> git commit -m "注释语句,比如20211229之类的都行"
+
+## 将commit的代码push到远程分支中去
+> git push
+会打开github的网页让登陆授权之类的操作。
+
+最后刷新仓库地址就能看到新增的文件了。
