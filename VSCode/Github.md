@@ -60,8 +60,17 @@
 5. 将以上新增加的文件commit到仓库中去
 6. 将commit的代码push到远程分支中去
 
-**git status** 命令可查看git是否获取到文件的更改！
-
+**git status** 命令可查看你上次提交之后是否有对文件进行过修改。
+**git add** 将代码从工作区添加到暂存区。
+* git add -u 表示将已跟踪文件中的修改和删除的文件添加到暂存区，不包括新增的文件
+* git add -A 表示将所有的已跟踪的文件的修改与删除和新增的未跟踪的文件都添加到暂存区
+* git add 不加参数默认为将修改操作的文件和未跟踪新添加的文件添加到暂存区，但不包括删除操作
+* 
+**git commit -m "注释"** 将暂存区内容添加到本地仓库
+**git pull origin master** 将远程仓库master中的信息同步到本地仓库master中
+**git push origin master** 将本地仓库master推送到远程仓库master中
+* git push 如果当前分支只有一个远程分支，那么主机名都可以省略。
+* git branch -r 可以查看远程的分支名
 ## 在本地存放项目的根目录clone仓库地址
 > git clone https://github.com/xxx/xxx.git
 
@@ -71,6 +80,8 @@
 
 若只想添加一个文件，则将--all替换成需要提交的文件即可:
 > git add ./VSCode/Github.md
+
+文件名强烈建议用英文，中文的话这里会出错。
 
 ## 将以上新增加的文件commit到仓库中去
 > git commit -m "注释语句,比如20211229之类的都行"
