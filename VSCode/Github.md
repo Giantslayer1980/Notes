@@ -1,4 +1,5 @@
 ## 本地与github进行关联
+主要步骤：
 1. 检查SSHKey是否存在
 2. 在本地生成SSHKey
 3. 将Key添加到SSH中
@@ -52,7 +53,7 @@
 > Hi your_name! You've successfully authenticated, but GitHub does not provide shell access.Connection to github.com closed.
 
 # VSCode与Github同步
-
+主要步骤：
 1. 创建仓库
 2. 复制仓库的地址(Clone with HTTPS)
 3. 在本地存放项目的根目录clone仓库地址
