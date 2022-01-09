@@ -197,3 +197,14 @@ ForEach(someItems) { item in
 }
 ```
 
+### Alamofire模块的导入及使用
+#### Alamofire模块的导入
+1. 从github下载, https://gitcode.net/mirrors/Alamofire/ ,并解压
+2. 打开需要使用Alamofire的项目,菜单栏中:File->Add Files to “项目名称”
+3. 在弹出选择界面勾选“Copy items if needed”,找到下载解压好的Alamofire位置,选择Alamofire.xcodeproj
+4. 但有时以上做完,还是无法import Alamofire,这时要在xcode的项目目录，选择最外层这个项目名称，基本的General设置里的Frameworks,Libraries,and Embedded Content里将Alamofire添加到项目的静态库中
+5. 接下来项目就可以import Alamofire了。
+#### Alamofire模块的使用
+貌似还没法用,下次有机会再试一下
+关于使用方法在：https://www.jianshu.com/p/07b1ec36a689
+以后可以参考下，但Alamofire.request这个方法就不可以用了

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F1E4E5A277F132C001535E5 /* Tabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E4E59277F132C001535E5 /* Tabbar.swift */; };
+		5F509C61278B3255007F98E4 /* PickerExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F509C60278B3255007F98E4 /* PickerExample.swift */; };
+		5FB484D6277DFA6F00040486 /* Instrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB484D5277DFA6F00040486 /* Instrument.swift */; };
 		5FBBA53F277CB3D400CA81CD /* SwiftUIExamplesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBBA53E277CB3D400CA81CD /* SwiftUIExamplesApp.swift */; };
 		5FBBA541277CB3D400CA81CD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBBA540277CB3D400CA81CD /* ContentView.swift */; };
 		5FBBA543277CB3D500CA81CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FBBA542277CB3D500CA81CD /* Assets.xcassets */; };
@@ -18,6 +21,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5F1E4E59277F132C001535E5 /* Tabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabbar.swift; sourceTree = "<group>"; };
+		5F509C60278B3255007F98E4 /* PickerExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerExample.swift; sourceTree = "<group>"; };
+		5FB484D5277DFA6F00040486 /* Instrument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instrument.swift; sourceTree = "<group>"; };
 		5FBBA53B277CB3D400CA81CD /* SwiftUIExamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIExamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBBA53E277CB3D400CA81CD /* SwiftUIExamplesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIExamplesApp.swift; sourceTree = "<group>"; };
 		5FBBA540277CB3D400CA81CD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -67,6 +73,9 @@
 				5FBBA550277CB54300CA81CD /* PreferenceKeyExample.swift */,
 				5FBBA54E277CB51100CA81CD /* MyRoundedCorners.swift */,
 				5FBBA54C277CB40700CA81CD /* GeometryReaderDetail.swift */,
+				5FB484D5277DFA6F00040486 /* Instrument.swift */,
+				5F1E4E59277F132C001535E5 /* Tabbar.swift */,
+				5F509C60278B3255007F98E4 /* PickerExample.swift */,
 			);
 			path = SwiftUIExamples;
 			sourceTree = "<group>";
@@ -149,10 +158,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F509C61278B3255007F98E4 /* PickerExample.swift in Sources */,
 				5FBBA54F277CB51100CA81CD /* MyRoundedCorners.swift in Sources */,
 				5FBBA541277CB3D400CA81CD /* ContentView.swift in Sources */,
 				5FBBA53F277CB3D400CA81CD /* SwiftUIExamplesApp.swift in Sources */,
+				5F1E4E5A277F132C001535E5 /* Tabbar.swift in Sources */,
 				5FBBA551277CB54300CA81CD /* PreferenceKeyExample.swift in Sources */,
+				5FB484D6277DFA6F00040486 /* Instrument.swift in Sources */,
 				5FBBA54D277CB40700CA81CD /* GeometryReaderDetail.swift in Sources */,
 				5FBBA553277CB58200CA81CD /* EquatableExample.swift in Sources */,
 			);
