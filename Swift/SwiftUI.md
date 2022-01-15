@@ -197,6 +197,75 @@ ForEach(someItems) { item in
 }
 ```
 
+### ForEach中\\.self使用的注意事项
+如果一个对象遵循Identifiable协议,比如:
+``` Swift
+struct Student: Identifiable {
+    let id: UUID = UUID()
+    var name: String
+    var strings: [String]
+    var colors: [Color]
+}
+```
+那么可以在ForEach中这样使用：
+``` Swift
+var students: [Student] = [
+    Student(name: "A", strings: ["a"], colors: [Color(.green)]),
+    Student(name: "B", strings: ["b"], colors: [Color(.green)]),
+    Student(name: "C", strings: ["c"], colors: [Color(.red)])
+]
+ForEach(students) { student in
+    print(student.name)
+}
+```
+显示结果为：
+> A B C
+
+当Student遵循Identifiable协议时,ForEach中就不必使用id:\\.self。
+如果不遵循Identifiable协议时,就需要我们指定唯一属性的key path,
+（Student下面的name/strings/colors属性都可以作为key path来使用,
+因为都可以计算哈希值）
+但如果连key path也没有的话,我们可以用\\.self。
+当使用\.self时,就是将整个结构对象的组合(如students)中的每个元素来一一迭代的话,
+就需要被迭代的每个元素结构遵循Hashable协议，例如：
+``` Swift
+struct Student: Hashable {
+    var name: String
+    var strings: [String]
+    var colors: [Color]
+}
+```
+此时,ForEach内可以使用id的是:
+\\.self | \\.name | \\.strings | \\.colors
+而如果Student既不遵循Identifiable,也不遵循Hashable:
+``` Swift
+struct Student {
+    var name: String
+    var strings: [String]
+    var colors: [Color]
+}
+```
+那么ForEach内可以使用id的是:
+\\.name | \\.strings | \\.colors
+也就是说\\.self不能使用。
+
+实际上,ForEach是在检索每个被迭代元素的哈希值,所以对于一个结构来说，一定要经过遵循并计算哈希值后,才可以被迭代。
+
+如果哈希值相同的情况,会出现什么问题呢？
+``` Swift
+ForEach(students, id:\.colors) {
+    student in
+    print(student.name)
+}
+```
+因为Students中前两个元素的colors属性完全相同,
+那么初始计算的时候,这两个元素的索引哈希值也相同,
+所以显示结果是：
+> A A C
+
+这是平时使用当中需要注意的问题。
+
+
 ### Alamofire模块的导入及使用
 #### Alamofire模块的导入
 1. 从github下载, https://gitcode.net/mirrors/Alamofire/ ,并解压
@@ -208,3 +277,172 @@ ForEach(someItems) { item in
 貌似还没法用,下次有机会再试一下
 关于使用方法在：https://www.jianshu.com/p/07b1ec36a689
 以后可以参考下，但Alamofire.request这个方法就不可以用了
+
+### ProgressView 进度条
+用法:
+ProgressView(value: 5, total: 15)
+
+### 为Label的.labelStyle这一modifier,创建新的样式即.trailingIcon,并遵循LabelStyle协议
+例如：
+``` Swift
+Label("10", systemImage: "clock)
+    .labelStyle(.xxx) 
+```
+其中.xxx可以选择 .iconOnly / .titleAndIcon / .titleOnly等等来使用
+(只显示icon / 按照 icon + title 的次序显示 / 只显示title)。
+而此处为其添加新的选项,即 .trailingIcon,看字面意思就是和.titleAndIcon相反的,
+即把Icon放最后,而title放前面的意思。
+具体实现：
+
+``` Swift
+import SwiftUI
+
+struct TrailingIconLabelStyle: LabelStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            configuration.title
+            configuration.icon
+        }
+    }
+}
+
+extension LabelStyle where Self == TrailingIconLabelStyle {
+    static var trailingIcon: Self { Self() }
+}
+```
+
+如何使用：
+``` Swift
+
+Label("10", systemImage: "clock")
+    .labelStyle(.trailingIcon)
+```
+
+### ForEach的.onDelete功能
+在Section内使用Foreach来依次显示列表内的内容时,
+在ForEach内可以使用.onDelete来划动删除特定项。
+当划动特定项时,会出现划动后的红色“删除”字样：
+![SwiftLogo](./Images/ForEach-onDelete.jpg)
+``` swift
+Section(header: Text("Attendees")) {
+    ForEach(data.attendees) { attendee in
+        Text(attendee.name)
+    }
+    .onDelete { indices in
+        data.attendees.remove(atOffsets: indices)
+    }
+}
+```
+
+## Button
+
+### 停用Button -- .disabled
+``` Swift
+Button(action:{}) {}
+    .disabled(someBoolVariableIsEmpty)
+```
+当变量someBoolVariableIsEmpty为false时,该Button将会被停用。
+
+### sheet modifier on List 的使用
+``` Swift
+List()
+    .sheet(isPresented: $isPresented) {
+        ...
+    }
+```
+参数isPresented需要传入的是一个Binding<Bool>。
+可以这样理解,因为该sheet会被下拉而退出,
+但若下拉后该isPresented参数不被变更为false,则sheet仍会被展现,
+这明显是错误的,所以需要进行绑定参数,而非仅仅传一个值给sheet。
+
+### toolbar modifier 的使用
+在List的右上角显示工具栏
+显示一个"edit"的button按钮：
+``` Swift
+List()
+    .toolbar {
+        Button("edit") {
+            ...
+        }
+    }
+```
+在一个View上面显示"Cancel"和"Done"按钮：
+``` Swift
+View()
+    .toolbar {
+        ToolbarItem(placement: .cancellationAction) {
+            Button("Cancel") {
+                isPresentingEditView = false
+            }
+        }
+        ToolbarItem(placement: .confirmationAction) {
+            Button("Done") {
+                isPresentingEditView = false
+                scrum.update(from: data)
+            }
+        }
+    }
+```
+两个按钮是平行排列的，感觉当中还夹着一个Spacer()。
+
+### @State 与 @StateObject / @ObservedObject / @EnvironmentObject 的区别？
+the @State property wrapper works only for value types, such as structures and enumerations.
+@ObservedObject, @StateObject, and @EnvironmentObject declare a reference type as a source of truth. To use these property wrappers with your class, you need to make your class observable.
+总结下来:
+1.@State 仅用于Struct 和 Enum 等值类型，存储在View内部；而@StateObject、@ObservedObject和@EnvironmentObject用于引用类型,即class对象，存储在View外部（但可以在View内部命名）。
+2.若要使用@ObservedObject、@StateObject和@EnvironmentObject的话，要使得对应的class实现ObservableObject协议。
+
+### @EnvironmentObject 传值的简单示例
+这是需要共享的基本数据：
+``` Swift
+class User: ObservableObject {
+    @Published var name = "Taylor Swift"
+}
+```
+接下来是两个用来接收上述数据的结构类型：
+``` Swift
+struct EditView: View {
+    @EnvironmentObject var user: User
+
+    var body: some View {
+        TextField("Name", text: $user.name)
+    }
+}
+struct DisplayView: View {
+    @EnvironmentObject var user: User
+
+    var body: some View {
+        Text(user.name)
+    }
+}
+```
+那么,在ContentView中,如何向EditView()和DisplayView传递一个User对象？
+``` Swift
+struct ContentView: View {
+    let user = User()
+
+    var body: some View {
+        VStack {
+            EditView().environmentObject(user)
+            DisplayView().environmentObject(user)
+        }
+    }
+}
+```
+也可以把ContentView改成这样：
+``` Swift
+VStack {
+    EditView()
+    DisplayView()
+}
+.environmentObject(user)
+```
+上例把 user 放到 ContentView 的环境中，但是因为 EditView 和 DisplayView 都是 ContentView 的子视图，所以它们自动继承了 ContentView 的环境。
+#### .environmentObject(user) 和 @EnvironmentObject var user: User 之间建立联系的？
+你会发现,.environmentObject(user)中只有一个user,而不是(user:user),那@EnvironmentObject var user: User是如何正确识别并接收的呢？
+查了资料,有称是通过字典的类型存键和类型存值来进行的。比如键存的是数据类型,就是User,而值就是User()。
+真的是这样吗？
+那如果我同时传递两个相同类型的对象,接收方如何区分？
+
+
+

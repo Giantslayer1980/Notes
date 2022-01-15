@@ -46,7 +46,7 @@ print(a)
 
 超链接及图片：
 [TennisScore](https://www.tennisscore.top)
-![SwiftLogo](../Images/SwiftLogo.png)
+![SwiftLogo](./Images/SwiftLogo.png)
 也可以链接本地的其他md文件。
 
 注释(预览是看不见的):
