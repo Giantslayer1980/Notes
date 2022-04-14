@@ -18,6 +18,7 @@
 		5FBBA54F277CB51100CA81CD /* MyRoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBBA54E277CB51100CA81CD /* MyRoundedCorners.swift */; };
 		5FBBA551277CB54300CA81CD /* PreferenceKeyExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBBA550277CB54300CA81CD /* PreferenceKeyExample.swift */; };
 		5FBBA553277CB58200CA81CD /* EquatableExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBBA552277CB58200CA81CD /* EquatableExample.swift */; };
+		5FEA2B1B2793C754004630C5 /* ProgressViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEA2B1A2793C754004630C5 /* ProgressViewStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		5FBBA54E277CB51100CA81CD /* MyRoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRoundedCorners.swift; sourceTree = "<group>"; };
 		5FBBA550277CB54300CA81CD /* PreferenceKeyExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceKeyExample.swift; sourceTree = "<group>"; };
 		5FBBA552277CB58200CA81CD /* EquatableExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquatableExample.swift; sourceTree = "<group>"; };
+		5FEA2B1A2793C754004630C5 /* ProgressViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 				5FB484D5277DFA6F00040486 /* Instrument.swift */,
 				5F1E4E59277F132C001535E5 /* Tabbar.swift */,
 				5F509C60278B3255007F98E4 /* PickerExample.swift */,
+				5FEA2B1A2793C754004630C5 /* ProgressViewStyle.swift */,
 			);
 			path = SwiftUIExamples;
 			sourceTree = "<group>";
@@ -163,6 +166,7 @@
 				5FBBA541277CB3D400CA81CD /* ContentView.swift in Sources */,
 				5FBBA53F277CB3D400CA81CD /* SwiftUIExamplesApp.swift in Sources */,
 				5F1E4E5A277F132C001535E5 /* Tabbar.swift in Sources */,
+				5FEA2B1B2793C754004630C5 /* ProgressViewStyle.swift in Sources */,
 				5FBBA551277CB54300CA81CD /* PreferenceKeyExample.swift in Sources */,
 				5FB484D6277DFA6F00040486 /* Instrument.swift in Sources */,
 				5FBBA54D277CB40700CA81CD /* GeometryReaderDetail.swift in Sources */,
