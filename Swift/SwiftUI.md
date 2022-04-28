@@ -200,7 +200,6 @@ struct CodableBootcamp: View {
 ```
 
 
-
 ### 向网页POST数据
 ``` Swift
 import UIKit
@@ -416,7 +415,50 @@ ForEach(students, id:\.colors) {
 
 ### ProgressView 进度条
 用法:
+``` Swift
 ProgressView(value: 5, total: 15)
+```
+或者:
+``` Swift
+ProgressView(value: 0.5)
+```
+
+#### .progressViewStyle
+为了让progress进度条更好看一些,
+创建一个SwiftUI文件,比如ScrumProgressViewStyle.swift:
+``` Swift
+import SwiftUI
+
+struct ScrumProgressViewStyle: ProgressViewStyle {
+    var color1: Color 
+    var color2: Color
+    func makeBody(configuration: Configuration) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10.0)
+                .fill(color1)
+                .frame(height: 20.0)
+            if #available(iOS 15.0, *) {
+                ProgressView(configuration)
+                    .tint(color2)
+                    .frame(height: 12.0)
+                    .padding(.horizontal)
+            } else {
+                ProgressView(configuration)
+                    .frame(height: 12.0)
+                    .padding(.horizontal)
+            }
+        }
+    }
+}
+
+struct ScrumProgressViewStyle_Previews: PreviewProvider {
+    static var previews: some View {
+        ProgressView(value: 0.4)
+            .progressViewStyle(ScrumProgressViewStyle(color1: .blue, color2: .green))
+            .previewLayout(.sizeThatFits)
+    }
+}
+```
 
 ### 为Label的.labelStyle这一modifier,创建新的样式即.trailingIcon,并遵循LabelStyle协议
 例如：
@@ -1822,7 +1864,7 @@ struct getDatasFromJsonPage2: View {
     
     @State private var results:[Message] = []
     
-    // 这里在loadData()后面加async
+    // 这里在loadData()后面加async,代表这个函数是异步的
     func loadData() async {
         guard let url = URL(string: "https://www.hackingwithswift.com/samples/user-messages.json") else {
             print("Invalid url")
@@ -1851,6 +1893,8 @@ struct getDatasFromJsonPage2: View {
                 
             }
             // .task修饰符只能用在iOS15.0以上
+            // SwiftUI provides a task modifier that you can use to execute an asynchronous function when a view appears
+            // The system automatically cancels tasks when a view disappears.
             .task {
                 // loadData()是异步方法,所以需要用await
                 await loadData()
@@ -3211,3 +3255,158 @@ Relationships的实际运用,以及配合使用到的Predicate，如何在项目
 > https://zhuanlan.zhihu.com/p/269441493
 
 
+### ScenePhase
+> https://developer.apple.com/documentation/swiftui/scenephase
+
+It's a enumeration.
+An indication of a scene's operational state.
+
+取得scenePhase:
+``` Swift
+@Environment(\.scenePhase) private var scenePhase
+```
+
+具体的状态有：
+.active
+.inactive
+.background
+三种。
+
+测试下来,进入scene时是.active状态,按住home键后进入.inactive状态,上划或者点击桌面的话进入.background状态.
+
+.background的使用场景:(onChange监测整个app都被放入后台的时候)
+``` Swift
+@main
+struct MyApp: App {
+    @Environment(\.scenePhase) private var scenePhase
+
+    var body: some Scene {
+        WindowGroup {
+            MyRootView()
+        }
+        .onChange(of: scenePhase) { phase in
+            if phase == .background {
+                // Perform cleanup when all scenes within
+                // MyApp go to the background.
+            }
+        }
+    }
+}
+```
+又可以监测scene被放入后台的情况:
+``` Swift
+struct MyScene: Scene {
+    @Environment(\.scenePhase) private var scenePhase
+
+    var body: some Scene {
+        WindowGroup {
+            MyRootView()
+        }
+        .onChange(of: scenePhase) { phase in
+            if phase == .background {
+                // Perform cleanup when all scenes within
+                // MyScene go to the background.
+            }
+        }
+    }
+}
+```
+监测view是active还是inactive的情况:
+``` Swift
+struct MyView: View {
+    @ObservedObject var model: DataModel
+    @Environment(\.scenePhase) private var scenePhase
+
+    var body: some View {
+        TimerView()
+            .onChange(of: scenePhase) { phase in
+                model.isTimerRunning = (phase == .active)
+            }
+    }
+}
+```
+
+### #available
+因为用户ios系统版本的差异,所以引入:
+``` Swift
+if #available(iOS 15, *) {
+    content
+    .listRowSeparator(.hidden)
+} else {
+    content
+}
+```
+
+### @available
+You can mark a function or an entire type as available for a specific operating system using the @available attribute. The function defined below is accessible only in iOS 15.1 and later:
+``` Swift
+@available(iOS 15.1, *)
+func setupGroupSession() {...}
+```
+
+### Task / .task
+
+注意一点:
+如果a是一个异步方法，调用的时候，必须在一个异步的上下文中，具体英语是:
+you can call an async function only from an asynchronous context.
+所以这时候就需要在代码中使用到Task{} 或者 .task{}
+
+#### Task
+
+使用Task来调取异步函数
+``` Swift
+struct ContentView: View {
+   @StateObject var model = ViewModel()
+ 
+   var body: some View {
+      NavigationView {
+         List {
+            Button {
+               Task {
+                  await model.refresh()
+               }
+            } label: {
+               Text("Load Participants")
+            }
+            ForEach(model.participants) { participant in
+               ...
+            }
+         }
+      }
+   }
+}
+```
+
+
+#### .task
+
+``` Swift
+VStack {
+    List(results, id:\.id) { item in
+        Text("From:\(item.from)")
+            .font(.headline)
+        Text("message:\(item.message)")
+        
+    }
+    // .task修饰符只能用在iOS15.0以上
+    // SwiftUI provides a task modifier that you can use to execute an asynchronous function when a view appears
+    // The system automatically cancels tasks when a view disappears.
+    .task {
+        // loadData()是异步方法,所以需要用await
+        await loadData()
+    }
+}
+```
+
+
+### @discardableResult
+某些方法等返回的值,有时候不需要用到,但不用的话会收到warnings,这时候可以使用@discardableResult来取消warnings.
+
+``` Swift
+@discardableResult
+static func save(scrums: [DailyScrum]) async throws -> Int {
+}
+```
+
+### #if DEBUG / #endif
+The #if DEBUG flag is a compilation directive that prevents the enclosed code from compiling when you build the app for release.
