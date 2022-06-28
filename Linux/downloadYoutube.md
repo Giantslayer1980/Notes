@@ -15,11 +15,17 @@ youtube-dl -f [format code] [url]
 
 二、使用网站下载
 1、https://www.videotosave.com/
+2、https://shortsnoob.com/zh (可下载短视频,且合成声音)
 
 三、合并视频、音频
-1、Video Audio Merger
+1. Video Audio Merger
 AppleStore内直接下载，基本功能即可满足。
 推荐的导出格式:
 文件格式:MP4
 画面打下:SmartFit
 视频编码:HEVC
+
+2. VTool
+使用其的synchronisation来合成视频和声音。
+
+
